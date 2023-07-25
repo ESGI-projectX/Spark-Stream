@@ -17,7 +17,7 @@ def predict_total_validation(df):
     model_dir = 'model'
     scaler = load(os.path.join(scaler_dir, "scaler_total_validation.joblib"))
 
-    data = scaler.transform(df['NB_VALD'].values.reshape(-1, 1))
+    data = scaler.transform(df['totalValid'].values.reshape(-1, 1))
     data = np.concatenate((data, df['jour_semaine'].values.reshape(-1, 1), df['jour_ferie'].values.reshape(-1, 1)), axis=1)
     data = data[-window_size:]
     model = load_model(os.path.join(model_dir, 'lstm_total_validation.h5'))
@@ -44,7 +44,7 @@ def predict_titre_validation(df):
         df_filter = df[df["CATEGORIE_TITRE"] == titre]
         assert (len(df_filter) >= 45)
         scaler_dict[titre] = load(os.path.join(scaler_dir, "scaler_titre_"+titre+".joblib"))
-        data_tmp = scaler_dict[titre].transform(df_filter['NB_VALD'].values.reshape(-1, 1))
+        data_tmp = scaler_dict[titre].transform(df_filter['totalValid'].values.reshape(-1, 1))
         data.append(np.expand_dims(data_tmp, axis=0))
 
     data = np.concatenate(data, axis=2)
@@ -76,7 +76,7 @@ def predict_arret_validation(df):
         df_filter = df[df["LIBELLE_ARRET"] == arret]
         assert (len(df_filter) >= 45)
         scaler_dict[arret] = load(os.path.join(scaler_dir, "scaler_titre_" + arret + ".joblib"))
-        data_tmp = scaler_dict[arret].transform(df_filter['NB_VALD'].values.reshape(-1, 1))
+        data_tmp = scaler_dict[arret].transform(df_filter['totalValid'].values.reshape(-1, 1))
         data.append(np.expand_dims(data_tmp, axis=0))
 
     data = np.concatenate(data, axis=2)

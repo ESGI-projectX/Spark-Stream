@@ -39,7 +39,7 @@ object SparkStream {
       .schema(schema)
       .option("header", false)
       .option("sep", ",")
-      .csv("../data/csv")
+      .csv("./data/csv")
     df.printSchema()
 
     val dfTime = df.withColumn("date_timestamp", unix_timestamp(col("JOUR"), "yyyy-MM-dd").cast(TimestampType))
@@ -78,24 +78,24 @@ object SparkStream {
     groupByLibelleDf.writeStream
       .format("csv")
       .outputMode("append")
-      .option("path", "../data/output")
-      .option("checkpointLocation", "../tmp")
+      .option("path", "./data/output")
+      .option("checkpointLocation", "./tmp")
       .option("header", true)
       .start()
 
     groupByCategTitreDf.writeStream
       .format("csv")
       .outputMode("append")
-      .option("path", "../data/output2")
-      .option("checkpointLocation", "../tmp2")
+      .option("path", "./data/output2")
+      .option("checkpointLocation", "./tmp2")
       .option("header", true)
       .start()
 
     groupByJourDf.writeStream
       .format("csv")
       .outputMode("append")
-      .option("path", "../data/output3")
-      .option("checkpointLocation", "../tmp3")
+      .option("path", "./data/output3")
+      .option("checkpointLocation", "./tmp3")
       .option("header", true)
       .start()
 

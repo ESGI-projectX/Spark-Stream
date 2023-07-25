@@ -51,9 +51,9 @@ def monitoring_today_validation(df_total, df_titre, df_arret):
     incertitude_titre = np.load("model/incertitudes_titre.npy")
     incertitude_arret = np.load("model/incertitudes_arret.npy")
 
-    actual_total_variation = (actual_total_validation["NB_VALD"] - predicted_value_total)/actual_total_validation["NB_VALD"]
-    actual_titre_variation = (actual_titre_validation["NB_VALD"] - predicted_value_titre)/actual_titre_validation["NB_VALD"]
-    actual_arret_variation = (actual_arret_validation["NB_VALD"] - predicted_value_arret)/actual_arret_validation["NB_VALD"]
+    actual_total_variation = (actual_total_validation["totalValid"] - predicted_value_total)/actual_total_validation["totalValid"]
+    actual_titre_variation = (actual_titre_validation["totalValid"] - predicted_value_titre)/actual_titre_validation["totalValid"]
+    actual_arret_variation = (actual_arret_validation["totalValid"] - predicted_value_arret)/actual_arret_validation["totalValid"]
 
     actual_total_variation_minus_incertitude = np.maximum(abs(actual_total_variation) - incertitude_total[:,current_day_int], 0)
     actual_titre_variation_minus_incertitude = np.maximum(abs(actual_titre_variation) - incertitude_titre[:,current_day_int], 0)
@@ -71,13 +71,13 @@ def monitoring_today_validation(df_total, df_titre, df_arret):
     ax3 = plt.subplot2grid(grid, (1, 1), colspan=2)
 
     # plot total
-    plot_histogramme(ax2, actual_total_validation["NB_VALD"].tolist(), predicted_value_total, [''],
+    plot_histogramme(ax2, actual_total_validation["totalValid"].tolist(), predicted_value_total, [''],
                      actual_total_variation_minus_incertitude, "Total", f"Nombre de validation le {current_day_name} {current_day.strftime('%Y-%m-%d')}")
     # plot titre
-    plot_histogramme(ax3, actual_titre_validation["NB_VALD"].tolist(), predicted_value_titre, unique_titre,
+    plot_histogramme(ax3, actual_titre_validation["totalValid"].tolist(), predicted_value_titre, unique_titre,
                      actual_titre_variation_minus_incertitude, "Titre de transport", f"Nombre de validation le {current_day_name} {current_day.strftime('%Y-%m-%d')}")
     # plot arret
-    plot_histogramme(ax1, np.array(actual_arret_validation["NB_VALD"])[indices_top5_largest_variation_arret],
+    plot_histogramme(ax1, np.array(actual_arret_validation["totalValid"])[indices_top5_largest_variation_arret],
                      predicted_value_arret[indices_top5_largest_variation_arret],
                      unique_arret[indices_top5_largest_variation_arret], np.array(actual_arret_variation_minus_incertitude)[indices_top5_largest_variation_arret],
                      "Nom de l'arrêt", f"Nombre de validation le {current_day_name} {current_day.strftime('%Y-%m-%d')}")
@@ -97,4 +97,4 @@ def read_data_test():
     monitoring_today_validation(df_total, df_titre, df_arret)
 
 
-read_data_test()
+# read_data_test()

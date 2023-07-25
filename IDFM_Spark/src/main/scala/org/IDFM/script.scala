@@ -32,7 +32,7 @@ object script {
         import spark.implicits._
 
         // Assuming all csv files are in the same directory
-        val csvDir = "../data/firstCSV/validation_futur.csv"
+        val csvDir = "./data/firstCSV/"
 
 
         // Loading all csv files
@@ -72,7 +72,7 @@ object script {
             batchDf.write
               .option("header", false)
               .mode("append")
-              .csv("../data/csv")
+              .csv("./data/csv")
             // delay
             TimeUnit.SECONDS.sleep(delay)
         }
